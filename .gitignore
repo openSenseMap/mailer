@@ -1,2 +1,6 @@
 .react-email
 node_modules/
+.env
+.DS_Store
+dist/
+local-data/

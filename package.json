@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -10,19 +11,33 @@
     "dist/**"
   ],
   "scripts": {
-    "dev": "email dev",
-    "export": "email export",
-    "clean": "rm -rf dist"
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
+    "studio": "email dev",
+    "clean": "rm -rf dist",
+    "message": "node producer.js"
   },
   "dependencies": {
+    "@react-email/button": "^0.0.6",
     "@react-email/components": "0.0.3",
+    "@react-email/html": "^0.0.4",
+    "@react-email/render": "^0.0.6",
     "bullmq": "^3.10.1",
+    "dotenv": "^16.0.3",
     "nodemailer": "^6.9.1",
+    "pino": "^8.11.0",
+    "react": "18.2.0",
     "react-email": "1.7.15"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.21.0",
+    "@swc/core": "^1.3.40",
     "@types/nodemailer": "^6.4.7",
+    "@types/react": "^18.0.28",
     "eslint": "^8.36.0",
+    "eslint-config-custom": "^0.0.0",
+    "tsconfig": "^7.0.0",
+    "tsup": "^6.6.3",
     "typescript": "^4.9.5"
   }
 }
