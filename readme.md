@@ -1,6 +1,6 @@
 # openSenseMap Mailer
 
-A live preview right in your browser so you don't need to keep sending real emails during development.
+This project is the mailer used by the [openSenseMap-API](https://github.com/sensebox/openSenseMap-API) and other services in the openSenseMap stack. The mailer is a queue based system powered by Redis.
 
 ## Getting Started
 
@@ -12,16 +12,47 @@ npm install
 yarn
 ```
 
-Then, run the development server:
+Copy the `.env.exmaple` file and adjust the environment variables:
 
 ```sh
-npm run dev
-# or
-yarn dev
+cp .env.example .env
 ```
 
-Open [localhost:3000](http://localhost:3000) with your browser to see the result.
+This repository also includes a [Redis Stack](https://redis.io/docs/stack/about/) and can be fired up with Docker:
+
+```sh
+docker compose up -d
+```
+
+> To configure Redis use the included `local-redis-stack.conf`.
+
+Open [localhost:8001](localhost:8001) with your browser and connect to Redis Insight.
+
+## Development
+
+### Adding or changing mail templates
+
+Templates are located within this repository under the `emails` folder. We use [react email](https://react.email/) to create our email templates. Please read the [react email docs](https://react.email/docs/introduction) before adding new templates.
+
+What´s really cool about *react email* is you get a live preview for the templates and you don´t need to keep sending real emails during development.
+
+To start the live preview run:
+
+```sh
+npm run studio
+# or
+yarn studio
+```
+
+Open [localhost:3000](localhost:3000) with your browser to see the template previews.
+
+### Mailer service
+
+The source code for the actual mailer service is located within the `src` folder. The mailer uses the following technologies:
+
+- [BullMQ](https://bullmq.io/) (robust queue system built on top of Redis)
+- [Nodemailer](https://nodemailer.com/about/) (email sending package)
 
 ## License
 
-MIT License
+[MIT License](./LICENSE)
