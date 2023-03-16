@@ -26,7 +26,7 @@ docker compose up -d
 
 > To configure Redis use the included `local-redis-stack.conf`.
 
-Open [localhost:8001](localhost:8001) with your browser and connect to Redis Insight.
+Open [localhost:8001](http://localhost:8001) with your browser and connect to Redis Insight.
 
 ## Development
 
@@ -44,7 +44,7 @@ npm run studio
 yarn studio
 ```
 
-Open [localhost:3000](localhost:3000) with your browser to see the template previews.
+Open [localhost:3000](http://localhost:3000) with your browser to see the template previews.
 
 ### Mailer service
 
