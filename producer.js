@@ -15,6 +15,18 @@ import newUserPayload from './payloads/newUser.json' assert { type: 'json'};
 import passwordResetPayload from './payloads/passwordReset.json' assert { type: 'json'};
 import resendEmailConfirmationPayload from './payloads/resendEmailConformation.json' assert { type: 'json'};
 
+const payloads = {
+  confirmEmail: confirmEmailPayload,
+  deleteUser: deleteUserPayload,
+  newDevice: newDevicePayload,
+  newDeviceHackair: newDeviceHackairPayload,
+  newDeviceLuftdaten: newDeviceLuftdatenPayload,
+  newSketch: newSketchPayload,
+  newUser: newUserPayload,
+  passwordReset: passwordResetPayload,
+  resendEmailConfirmation: resendEmailConfirmationPayload
+}
+
 const connection = {
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
@@ -27,10 +39,10 @@ const queue = new Queue(process.env.BULLMQ_QUEUE_NAME, {
   connection: connection,
 });
 
-console.log(`ℹ️: Going to add ${MAIL_TEMPLATE} template to the queue.`);
+console.log(`ℹ️: Going to add ${MAIL_TEMPLATE} payload to the queue.`);
 queue.add(
-  "newDevice",
-  newDevicePayload,
+  MAIL_TEMPLATE,
+  payloads[MAIL_TEMPLATE],
   { removeOnComplete: true }
 );
 

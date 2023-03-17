@@ -40,7 +40,7 @@ interface Recipient {
 }
 interface Attachment {
   filename: string;
-  contents: any;
+  contents: string;
 }
 interface Payload {
   template:
@@ -55,7 +55,12 @@ interface Payload {
     | "resendEmailConfirmation";
   lang: "en_US" | "de_DE";
   recipient: Recipient;
-  payload: any;
+  payload: {
+    user: any;
+    token: string;
+    email: string;
+    box: any;
+  };
   attachment: Attachment;
 }
 
