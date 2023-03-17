@@ -1,6 +1,9 @@
 import { render } from "@react-email/render";
 import type { Job } from "bullmq";
 
+// Import logger
+import logger from "../logger";
+
 // Nodemailer transporter
 import transporter from "../transporter";
 
@@ -180,5 +183,5 @@ export default async function (job: Job) {
     attachments: attachments,
   });
 
-  console.log(info);
+  logger.info(info);
 }

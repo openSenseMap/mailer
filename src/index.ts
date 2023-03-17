@@ -1,8 +1,10 @@
-import pino, { Logger } from "pino";
 import { Worker } from "bullmq";
 
 // Import config
 import config from "./config";
+
+// Import logger
+import logger from "./logger";
 
 // Nodemailer transporter
 import transporter from "./transporter";
@@ -10,7 +12,6 @@ import transporter from "./transporter";
 // Bullmq worker
 import processMail from "./worker/mails";
 
-const logger: Logger = pino(); // Add trasnport for writing to file and add logrotate
 let worker: Worker;
 
 async function main() {
