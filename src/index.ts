@@ -10,7 +10,7 @@ import transporter from "./transporter";
 // Bullmq worker
 import processMail from "./worker/mails";
 
-const logger: Logger = pino();
+const logger: Logger = pino(); // Add trasnport for writing to file and add logrotate
 let worker: Worker;
 
 async function main() {

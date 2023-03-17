@@ -25,6 +25,7 @@ const baseUrl = process.env.OSEM_URL
 
 export const PasswordResetEmail = ({
   user = { name: "Max Mustermann", email: "max.mustermann@example.com" },
+  email = "max.mustermann@example.com",
   token = "1234-5678-9012",
 }: PasswordResetProps) => (
   <Html lang="de" dir="ltr">

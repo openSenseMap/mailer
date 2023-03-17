@@ -1,7 +1,19 @@
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
 
-import { Queue, QueueEvents } from "bullmq";
+import { Queue } from "bullmq";
+
+const MAIL_TEMPLATE = process.env.MAIL_TEMAPLTE || "confirmEmail";
+
+import confirmEmailPayload from './payloads/confirmEmail.json' assert { type: 'json'};
+import deleteUserPayload from './payloads/deleteUser.json' assert { type: 'json'};
+import newDevicePayload from './payloads/newDevice.json' assert { type: 'json'};
+import newDeviceHackairPayload from './payloads/newDeviceHackair.json' assert { type: 'json'};
+import newDeviceLuftdatenPayload from './payloads/newDeviceLuftdaten.json' assert { type: 'json'};
+import newSketchPayload from './payloads/newSketch.json' assert { type: 'json'};
+import newUserPayload from './payloads/newUser.json' assert { type: 'json'};
+import passwordResetPayload from './payloads/passwordReset.json' assert { type: 'json'};
+import resendEmailConfirmationPayload from './payloads/resendEmailConformation.json' assert { type: 'json'};
 
 const connection = {
   host: process.env.REDIS_HOST,
@@ -14,25 +26,12 @@ const connection = {
 const queue = new Queue(process.env.BULLMQ_QUEUE_NAME, {
   connection: connection,
 });
-const queueEvents = new QueueEvents(process.env.BULLMQ_QUEUE_NAME, {
-  connection: connection
-});
 
-queue.on("waiting", (job) => {
-  console.log(`Job is waiting to be processed: `, job.id);
-});
+console.log(`ℹ️: Going to add ${MAIL_TEMPLATE} template to the queue.`);
+queue.add(
+  "newDevice",
+  newDevicePayload,
+  { removeOnComplete: true }
+);
 
-queueEvents.on('completed', (job) => {
-  console.log('Job was completed: ', job.id);
-});
-
-async function main () {
-  queue.add(
-    "test1234",
-    { foo: "baz", error: true },
-    { removeOnComplete: true }
-  );
-}
-
-main()
-// queue.close()
+queue.close();
