@@ -1,0 +1,11 @@
+/node_modules
+*.log
+.DS_Store
+.env
+.env.example
+/local-data
+/dist
+.react-email
+/payloads
+docker-compose.yml
+*.conf
