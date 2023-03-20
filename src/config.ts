@@ -40,7 +40,7 @@ const getConfig = (): ENV => {
       ? Number(process.env.SMTP_PORT)
       : undefined,
     SMTP_SECURE: process.env.SMTP_SECURE
-      ? Boolean(process.env.SMTP_SECURE)
+      ? Boolean(JSON.parse(process.env.SMTP_SECURE))
       : undefined,
     SMTP_USERNAME: process.env.SMTP_USERNAME,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
