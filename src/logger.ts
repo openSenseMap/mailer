@@ -27,6 +27,6 @@ const transport = pino.transport({
   ],
 });
 
-const logger: Logger = pino(transport);
+const logger: Logger = pino();
 
 export default logger;
