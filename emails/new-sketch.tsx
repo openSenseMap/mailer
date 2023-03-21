@@ -8,6 +8,57 @@ import { Preview } from "@react-email/preview";
 import { Text } from "@react-email/text";
 import * as React from "react";
 
+import i18next from "i18next";
+
+i18next.init({
+  debug: false,
+  resources: {
+    en: {
+      translation: {
+        preview: "Your new Sketch",
+        heading: "Your new Sketch",
+        hello: "Hi",
+        description:
+          "you've just changed your model or sensors of your weatherstation on the openSenseMap. You will find the new sketch in the attachment of this mail.",
+        attention: "Attention!",
+        warn: "The sketch in the attachment is in an untreated state. This means:",
+        warn1:
+          "Your network settings like wifi or ethernet configurations have to be taken over from your old sketch.",
+        warn2:
+          "Every change you've made to include other sensors have to be taken over from your old sketch.",
+        warn3: "The sketch does not contain other changes you've made!",
+        sensors:
+          "In addition, the following IDs were generated for the sensors of your station:",
+        deviceId: "Your senseBox ID is:",
+        support: "If you have any questions write us an email to:",
+        salutation:
+          "The openSenseMap team wishes you a lot of fun with your new senseBox",
+      },
+    },
+    de: {
+      translation: {
+        preview: "Dein neuer Sketch",
+        heading: "Dein neuer Sketch",
+        hello: "Hallo",
+        description:
+          "du hast gerade das Modell oder die Sensoren deiner Wetterstation auf der openSenseMap geändert. Deswegen schicken wir dir hier einen aktualisierten Arduino-Sketch, den du im Anhang findest.",
+        attention: "Achtung!",
+        warn: "Der Sketch im Anhang befindet sich im Rohzustand. Das bedeutet:",
+        warn1:
+          "Netzwerkeinstellungen für Wifi oder statische Ethernetkonfigurationen müssen vom alten Sketch übernommen werden.",
+        warn2:
+          "Jegliche Änderungen für zum Beispiel: andere Sensoren müssen vom alten Sketch übernommen werden.",
+        warn3: "Jede andere Änderung ist nicht enthalten!",
+        sensors:
+          "Außerdem wurden die folgenden IDs für die Sensoren deiner Station generiert:",
+        deviceId: "Deine senseBox-ID lautet:",
+        support: "Wenn Du Fragen hast schreib uns eine Mail an:",
+        salutation: "Viel Spaß wünscht dein openSenseMap Team",
+      },
+    },
+  },
+});
+
 interface User {
   name: string;
 }
@@ -27,6 +78,7 @@ interface Device {
 interface NewSketchProps {
   user: User;
   device: Device;
+  language: "de" | "en";
 }
 
 const baseUrl = process.env.OSEM_URL
@@ -42,41 +94,29 @@ export const NewSketchEmail = ({
       { _id: "9876543210", title: "Temperatur", sensorType: "HDC1080" },
     ],
   },
+  language = "en",
 }: NewSketchProps) => (
-  <Html lang="de" dir="ltr">
+  <Html lang={language} dir="ltr">
     <Head />
-    <Preview>Dein neuer Sketch</Preview>
+    <Preview>{i18next.t("preview", { lng: language })}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Dein neuer Sketch</Heading>
-        <Text>Hallo {user.name},</Text>
+        <Heading style={h1}>{i18next.t("heading", { lng: language })}</Heading>
         <Text>
-          du hast gerade das Modell oder die Sensoren deiner Wetterstation auf
-          der openSenseMap geändert. Deswegen schicken wir dir hier einen
-          aktualisierten Arduino-Sketch, den du im Anhang findest.
+          {i18next.t("hello", { lng: language })} {user.name},
         </Text>
-        <Heading as="h4">Achtung!</Heading>
-        <Text>
-          Der Sketch im Anhang befindet sich im Rohzustand. Das bedeutet:
-        </Text>
+        <Text>{i18next.t("description", { lng: language })}</Text>
+        <Heading as="h4">{i18next.t("attention", { lng: language })}</Heading>
+        <Text>{i18next.t("warn", { lng: language })}</Text>
         <ul>
-          <li>
-            Netzwerkeinstellungen für Wifi oder statische
-            Ethernetkonfigurationen müssen vom alten Sketch übernommen werden.
-          </li>
-          <li>
-            Jegliche Änderungen für zum Beispiel: andere Sensoren müssen vom
-            alten Sketch übernommen werden.
-          </li>
-          <li>Jede andere Änderung ist nicht enthalten!</li>
+          <li>{i18next.t("warn1", { lng: language })}</li>
+          <li>{i18next.t("warn2", { lng: language })}</li>
+          <li>{i18next.t("warn3", { lng: language })}</li>
         </ul>
         <Text>
-          Deine senseBox-ID lautet: <b>{device._id}</b>
+          {i18next.t("deviceId", { lng: language })} <b>{device._id}</b>
         </Text>
-        <Text>
-          Außerdem wurden die folgenden IDs für die Sensoren deiner Station
-          generiert:
-        </Text>
+        <Text>{i18next.t("sensors", { lng: language })}</Text>
         <ul>
           {device.sensors.map((sensor) => (
             <li>
@@ -85,14 +125,14 @@ export const NewSketchEmail = ({
           ))}
         </ul>
         <Text>
-          Wenn Du Fragen hast schreib uns eine Mail an: {}
+          {i18next.t("support", { lng: language })} {}
           <Link
             href={`mailto:support@sensebox.de?Subject=Neuer%20Sketch%20Box-Id%20${device._id}`}
           >
             support@sensebox.de
           </Link>
         </Text>
-        <Text>Viel Spaß wünscht dein openSenseMap Team</Text>
+        <Text>{i18next.t("salutation", { lng: language })}</Text>
       </Container>
     </Body>
   </Html>
@@ -100,7 +140,10 @@ export const NewSketchEmail = ({
 
 export default NewSketchEmail;
 
-export const subject = "Neuer Sketch";
+export const subject = {
+  de: "Dein neuer Sketch",
+  en: "Your new Sketch",
+};
 
 const main = {
   backgroundColor: "#ffffff",
