@@ -29,6 +29,7 @@
     "@react-email/text": "0.0.4",
     "bullmq": "^3.10.1",
     "dotenv": "^16.0.3",
+    "i18next": "^22.4.13",
     "nodemailer": "^6.9.1",
     "pino": "^8.11.0",
     "react": "18.2.0",

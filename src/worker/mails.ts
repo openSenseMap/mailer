@@ -75,6 +75,22 @@ export default async function (job: Job) {
   let subject;
   let emailHtml;
   const attachments: Mail.Attachment[] = [];
+
+  let lang: "de" | "en" = "en";
+
+  if (apiPayload.lang) {
+    switch (apiPayload.lang.split("_")[0].toLowerCase()) {
+      case "de":
+        lang = "de";
+        break;
+      case "en":
+        lang = "en";
+      default:
+        lang = "en";
+        break;
+    }
+  }
+
   switch (apiPayload.template) {
     case "confirmEmail":
       subject = ConfirmEmailSubject;
@@ -83,6 +99,7 @@ export default async function (job: Job) {
           user: apiPayload.payload.user,
           token: apiPayload.payload.token,
           email: apiPayload.payload.email,
+          language: lang,
         })
       );
       break;
@@ -91,6 +108,7 @@ export default async function (job: Job) {
       emailHtml = render(
         DeleteUserEmail({
           user: apiPayload.payload.user,
+          language: lang,
         })
       );
       break;
@@ -100,6 +118,7 @@ export default async function (job: Job) {
         NewDeviceEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
+          language: lang,
         })
       );
       attachments.push({
@@ -114,6 +133,7 @@ export default async function (job: Job) {
         NewDeviceHackairEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
+          language: lang,
         })
       );
       break;
@@ -123,6 +143,7 @@ export default async function (job: Job) {
         NewDeviceLuftdatenEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
+          language: lang,
         })
       );
       break;
@@ -132,6 +153,7 @@ export default async function (job: Job) {
         NewSketchEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
+          language: lang,
         })
       );
       attachments.push({
@@ -147,6 +169,7 @@ export default async function (job: Job) {
           user: apiPayload.payload.user,
           email: apiPayload.payload.email,
           token: apiPayload.payload.token,
+          language: lang,
         })
       );
       break;
@@ -157,6 +180,7 @@ export default async function (job: Job) {
           user: apiPayload.payload.user,
           email: apiPayload.payload.email,
           token: apiPayload.payload.token,
+          language: lang,
         })
       );
       break;
@@ -167,6 +191,7 @@ export default async function (job: Job) {
           user: apiPayload.payload.user,
           token: apiPayload.payload.token,
           email: apiPayload.payload.email,
+          language: lang,
         })
       );
       break;
@@ -178,7 +203,7 @@ export default async function (job: Job) {
   const info = await transporter.sendMail({
     from: '"openSenseMap 🌍" <no-reply@opensensemap.org>', // sender address
     to: `"${apiPayload.recipient.name}" <${apiPayload.recipient.address}>`, // list of receivers
-    subject: subject, // Subject line
+    subject: subject ? subject[lang] : "openSenseMap", // Subject line
     html: emailHtml, // html body
     attachments: attachments,
   });

@@ -8,6 +8,43 @@ import { Preview } from "@react-email/preview";
 import { Text } from "@react-email/text";
 import * as React from "react";
 
+import i18next from "i18next";
+
+i18next.init({
+  debug: false,
+  resources: {
+    en: {
+      translation: {
+        preview: "openSenseMap E-Mail address confirmation",
+        heading: "Confirm your E-Mail address",
+        hello: "Hi",
+        description:
+          "Someone has requested to change your email address. You can do this by clicking the link below.",
+        link: "Confirm email address",
+        hint: "If you are unable to click the link, you can also open this address with your web browser:",
+        warn: "If you didn't request this, please ignore this email.",
+        support:
+          "If you have any questions, feel free to write us an email to:",
+        salutation: "Best wishes, your openSenseMap Team",
+      },
+    },
+    de: {
+      translation: {
+        preview: "openSenseMap Bestätigung deiner E-Mailadresse",
+        heading: "Bestätigung deiner E-Mailadresse",
+        hello: "Hallo",
+        description:
+          "Jemand hat eine Änderung deiner E-Mail Adresse angefordert. Dies kannst du tun, indem du auf den Link unten klickst.",
+        link: "E-Mail bestätigen",
+        hint: "Wenn sich der Link nicht anklicken lässt, kannst du auch diese Adresse kopieren und mit deinem Browser öffnen:",
+        warn: "Falls du keine Änderung deiner E-Mail Adresse angefordert hast, ignoriere diese E-Mail.",
+        support: "Wenn Du Fragen hast schreib uns eine Mail an:",
+        salutation: "Viele Grüße, dein openSenseMap Team",
+      },
+    },
+  },
+});
+
 interface User {
   name: string;
 }
@@ -16,6 +53,7 @@ interface ConfirmEmailAddressProps {
   user: User;
   token: string;
   email: string;
+  language: "de" | "en";
 }
 
 const baseUrl = process.env.OSEM_URL
@@ -26,69 +64,74 @@ export const ConfirmEmailAddress = ({
   user = { name: "Max Mustermann" },
   token = "1234-5678-9010",
   email = "max.mustermann@example.com",
-}: ConfirmEmailAddressProps) => (
-  <Html lang="de" dir="ltr">
-    <Head />
-    <Preview>openSenseMap Bestätigung deiner E-Mailadresse</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Bestätigung deiner E-Mailadresse</Heading>
-        <Text>Hallo {user.name},</Text>
-        <Text>
-          Jemand hat eine Änderung deiner E-Mail Adresse angefordert. Dies
-          kannst du tun, indem du auf den Link unten klickst.
-        </Text>
-        <Link
-          href={`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}
-          target="_blank"
-          style={{
-            ...link,
-            display: "block",
-            marginBottom: "16px",
-          }}
-        >
-          E-Mail bestätigen
-        </Link>
-        <Text style={{ ...text, marginBottom: "14px" }}>
-          Wenn sich der Link nicht anklicken lässt, kannst du auch diese Adresse
-          kopieren und mit deinem Browser öffnen:
-        </Text>
-        <code
-          style={code}
-        >{`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}</code>
-        <Text
-          style={{
-            ...text,
-            color: "#ababab",
-            marginTop: "14px",
-            marginBottom: "16px",
-          }}
-        >
-          Falls du keine Änderung deiner E-Mail Adresse angefordert hast,
-          ignoriere diese E-Mail.
-        </Text>
-        <Text
-          style={{
-            ...text,
-            color: "#ababab",
-            marginTop: "12px",
-            marginBottom: "38px",
-          }}
-        >
-          Wenn Du Fragen hast schreib uns eine Mail an: {}
-          <Link href="mailto:support@sensebox.de?Subject=Email%20Best%C3%A4tigen%20f%C3%BCr%20matthias.pfeil@gmail.com">
-            support@sensebox.de
+  language = "de",
+}: ConfirmEmailAddressProps) => {
+  return (
+    <Html lang={language} dir="ltr">
+      <Head />
+      <Preview>{i18next.t("preview", { lng: language })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>
+            {i18next.t("heading", { lng: language })}
+          </Heading>
+          <Text>
+            {i18next.t("hello", { lng: language })} {user.name},
+          </Text>
+          <Text>{i18next.t("description", { lng: language })}</Text>
+          <Link
+            href={`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}
+            target="_blank"
+            style={{
+              ...link,
+              display: "block",
+              marginBottom: "16px",
+            }}
+          >
+            {i18next.t("link", { lng: language })}
           </Link>
-        </Text>
-        <Text>Viele Grüße, dein openSenseMap Team</Text>
-      </Container>
-    </Body>
-  </Html>
-);
+          <Text style={{ ...text, marginBottom: "14px" }}>
+            {i18next.t("hint", { lng: language })}
+          </Text>
+          <code
+            style={code}
+          >{`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}</code>
+          <Text
+            style={{
+              ...text,
+              color: "#ababab",
+              marginTop: "14px",
+              marginBottom: "16px",
+            }}
+          >
+            {i18next.t("warn", { lng: language })}
+          </Text>
+          <Text
+            style={{
+              ...text,
+              color: "#ababab",
+              marginTop: "12px",
+              marginBottom: "38px",
+            }}
+          >
+            {i18next.t("support", { lng: language })} {}
+            <Link href="mailto:support@sensebox.de?Subject=Email%20Best%C3%A4tigen%20f%C3%BCr%20matthias.pfeil@gmail.com">
+              support@sensebox.de
+            </Link>
+          </Text>
+          <Text>{i18next.t("salutation", { lng: language })}</Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 
 export default ConfirmEmailAddress;
 
-export const subject = "Bestätigung deiner E-Mailadresse";
+export const subject = {
+  de: "Bestätigung deiner E-Mailadresse",
+  en: "openSenseMap E-Mail address confirmation",
+};
 
 const main = {
   backgroundColor: "#ffffff",
