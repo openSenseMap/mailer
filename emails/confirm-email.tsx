@@ -8,42 +8,34 @@ import { Preview } from "@react-email/preview";
 import { Text } from "@react-email/text";
 import * as React from "react";
 
-import i18next from "i18next";
+import { createIntl } from "@formatjs/intl";
 
-i18next.init({
-  debug: false,
-  resources: {
-    en: {
-      translation: {
-        preview: "openSenseMap E-Mail address confirmation",
-        heading: "Confirm your E-Mail address",
-        hello: "Hi",
-        description:
-          "Someone has requested to change your email address. You can do this by clicking the link below.",
-        link: "Confirm email address",
-        hint: "If you are unable to click the link, you can also open this address with your web browser:",
-        warn: "If you didn't request this, please ignore this email.",
-        support:
-          "If you have any questions, feel free to write us an email to:",
-        salutation: "Best wishes, your openSenseMap Team",
-      },
-    },
-    de: {
-      translation: {
-        preview: "openSenseMap Bestätigung deiner E-Mailadresse",
-        heading: "Bestätigung deiner E-Mailadresse",
-        hello: "Hallo",
-        description:
-          "Jemand hat eine Änderung deiner E-Mail Adresse angefordert. Dies kannst du tun, indem du auf den Link unten klickst.",
-        link: "E-Mail bestätigen",
-        hint: "Wenn sich der Link nicht anklicken lässt, kannst du auch diese Adresse kopieren und mit deinem Browser öffnen:",
-        warn: "Falls du keine Änderung deiner E-Mail Adresse angefordert hast, ignoriere diese E-Mail.",
-        support: "Wenn Du Fragen hast schreib uns eine Mail an:",
-        salutation: "Viele Grüße, dein openSenseMap Team",
-      },
-    },
+const messages = {
+  en: {
+    preview: "openSenseMap E-Mail address confirmation",
+    heading: "Confirm your E-Mail address",
+    hello: "Hi",
+    description:
+      "Someone has requested to change your email address. You can do this by clicking the link below.",
+    link: "Confirm email address",
+    hint: "If you are unable to click the link, you can also open this address with your web browser:",
+    warn: "If you didn't request this, please ignore this email.",
+    support: "If you have any questions, feel free to write us an email to:",
+    salutation: "Best wishes, your openSenseMap Team",
   },
-});
+  de: {
+    preview: "openSenseMap Bestätigung deiner E-Mailadresse",
+    heading: "Bestätigung deiner E-Mailadresse",
+    hello: "Hallo",
+    description:
+      "Jemand hat eine Änderung deiner E-Mail Adresse angefordert. Dies kannst du tun, indem du auf den Link unten klickst.",
+    link: "E-Mail bestätigen",
+    hint: "Wenn sich der Link nicht anklicken lässt, kannst du auch diese Adresse kopieren und mit deinem Browser öffnen:",
+    warn: "Falls du keine Änderung deiner E-Mail Adresse angefordert hast, ignoriere diese E-Mail.",
+    support: "Wenn Du Fragen hast schreib uns eine Mail an:",
+    salutation: "Viele Grüße, dein openSenseMap Team",
+  },
+};
 
 interface User {
   name: string;
@@ -64,21 +56,24 @@ export const ConfirmEmailAddress = ({
   user = { name: "Max Mustermann" },
   token = "1234-5678-9010",
   email = "max.mustermann@example.com",
-  language = "de",
+  language = "en",
 }: ConfirmEmailAddressProps) => {
+  const intl = createIntl({
+    locale: language,
+    messages: messages[language],
+  });
+
   return (
     <Html lang={language} dir="ltr">
       <Head />
-      <Preview>{i18next.t("preview", { lng: language })}</Preview>
+      <Preview>{intl.formatMessage({ id: "preview" })}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>
-            {i18next.t("heading", { lng: language })}
-          </Heading>
+          <Heading style={h1}>{intl.formatMessage({ id: "heading" })}</Heading>
           <Text>
-            {i18next.t("hello", { lng: language })} {user.name},
+            {intl.formatMessage({ id: "hello" })} {user.name},
           </Text>
-          <Text>{i18next.t("description", { lng: language })}</Text>
+          <Text>{intl.formatMessage({ id: "description" })}</Text>
           <Link
             href={`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}
             target="_blank"
@@ -88,10 +83,10 @@ export const ConfirmEmailAddress = ({
               marginBottom: "16px",
             }}
           >
-            {i18next.t("link", { lng: language })}
+            {intl.formatMessage({ id: "link" })}
           </Link>
           <Text style={{ ...text, marginBottom: "14px" }}>
-            {i18next.t("hint", { lng: language })}
+            {intl.formatMessage({ id: "hint" })}
           </Text>
           <code
             style={code}
@@ -104,7 +99,7 @@ export const ConfirmEmailAddress = ({
               marginBottom: "16px",
             }}
           >
-            {i18next.t("warn", { lng: language })}
+            {intl.formatMessage({ id: "warn" })}
           </Text>
           <Text
             style={{
@@ -114,12 +109,12 @@ export const ConfirmEmailAddress = ({
               marginBottom: "38px",
             }}
           >
-            {i18next.t("support", { lng: language })} {}
+            {intl.formatMessage({ id: "support" })} {}
             <Link href="mailto:support@sensebox.de?Subject=Email%20Best%C3%A4tigen%20f%C3%BCr%20matthias.pfeil@gmail.com">
               support@sensebox.de
             </Link>
           </Text>
-          <Text>{i18next.t("salutation", { lng: language })}</Text>
+          <Text>{intl.formatMessage({ id: "salutation" })}</Text>
         </Container>
       </Body>
     </Html>

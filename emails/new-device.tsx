@@ -8,53 +8,45 @@ import { Preview } from "@react-email/preview";
 import { Text } from "@react-email/text";
 import * as React from "react";
 
-import i18next from "i18next";
+import { createIntl } from "@formatjs/intl";
 
-i18next.init({
-  debug: false,
-  resources: {
-    en: {
-      translation: {
-        preview: "Your device on openSenseMap",
-        heading: "Your device on openSenseMap",
-        hello: "Hello",
-        description:
-          "Thank you for registering your hackAIR home v2 particulate matter sensor {{deviceName}} on openSenseMap!",
-        hint: "🎉 Now, you have to configure your device in order to submit measurements to the openSenseMap. You'll find instructions to do so on",
-        thanks: "Thank you very much for contributing!",
-        deviceId: "Your senseBox ID is:",
-        opensensemapHint: "You can view your device at this location:",
-        support:
-          "If you have any questions, feel free to write us an email to:",
-        attachment:
-          "Please note your personal Arduino Sketch in the attachment of this mail. If you have registered a senseBox with WiFi-Bee make sure you set your WiFi credentials in the arduino sketch, so your senseBox can connect to the internet. You can find further instructions",
-        attachmentLink: "here",
-        attachmentSuffix: "in the First steps of our senseBox:home book.",
-        salutation: "The openSenseMap team wishes you a lot of fun",
-      },
-    },
-    de: {
-      translation: {
-        preview: "Dein neues Gerät auf der openSenseMap",
-        heading: "Dein neues Gerät auf der openSenseMap",
-        hello: "Hallo",
-        description:
-          "vielen Dank für die Registrierung deines hackAIR home v2 Feinstaubsensors {{deviceName}} auf der openSenseMap!",
-        hint: "🎉 Damit deine Daten auch die openSenseMap erreichen, musst du noch deinen Feinstaubsensor konfigurieren. Eine Anleitung findest du unter",
-        thanks: "Vielen lieben Dank, dass du dich am Projekt beteiligst.",
-        deviceId: "Deine senseBox-ID lautet:",
-        opensensemapHint:
-          "Du findest deine Station auf der openSenseMap unter dieser Adresse:",
-        support: "Wenn Du Fragen hast schreib uns eine Mail an:",
-        attachment:
-          "Im Anhang befindet sich dein persönlicher Arduino Sketch. Falls du eine senseBox mit WiFi-Bee registriert hast, denke unbedingt daran dein WiFi-Netzwerknamen und das Passwort in den Arduino Sktech einzufügen, damit sich deine senseBox mit dem Internet verbinden kann. Eine Anleitung wie es damit weitergeht, findest du",
-        attachmentLink: "hier",
-        attachmentSuffix: "in der Dokumentation.",
-        salutation: "Viel Spaß wünscht dein openSenseMap Team",
-      },
-    },
+const messages = {
+  en: {
+    preview: "Your device on openSenseMap",
+    heading: "Your device on openSenseMap",
+    hello: "Hello",
+    description:
+      "Thank you for registering your hackAIR home v2 particulate matter sensor {deviceName} on openSenseMap!",
+    hint: "🎉 Now, you have to configure your device in order to submit measurements to the openSenseMap. You'll find instructions to do so on",
+    thanks: "Thank you very much for contributing!",
+    deviceId: "Your senseBox ID is:",
+    opensensemapHint: "You can view your device at this location:",
+    support: "If you have any questions, feel free to write us an email to:",
+    attachment:
+      "Please note your personal Arduino Sketch in the attachment of this mail. If you have registered a senseBox with WiFi-Bee make sure you set your WiFi credentials in the arduino sketch, so your senseBox can connect to the internet. You can find further instructions",
+    attachmentLink: "here",
+    attachmentSuffix: "in the First steps of our senseBox:home book.",
+    salutation: "The openSenseMap team wishes you a lot of fun",
   },
-});
+  de: {
+    preview: "Dein neues Gerät auf der openSenseMap",
+    heading: "Dein neues Gerät auf der openSenseMap",
+    hello: "Hallo",
+    description:
+      "vielen Dank für die Registrierung deines hackAIR home v2 Feinstaubsensors {deviceName} auf der openSenseMap!",
+    hint: "🎉 Damit deine Daten auch die openSenseMap erreichen, musst du noch deinen Feinstaubsensor konfigurieren. Eine Anleitung findest du unter",
+    thanks: "Vielen lieben Dank, dass du dich am Projekt beteiligst.",
+    deviceId: "Deine senseBox-ID lautet:",
+    opensensemapHint:
+      "Du findest deine Station auf der openSenseMap unter dieser Adresse:",
+    support: "Wenn Du Fragen hast schreib uns eine Mail an:",
+    attachment:
+      "Im Anhang befindet sich dein persönlicher Arduino Sketch. Falls du eine senseBox mit WiFi-Bee registriert hast, denke unbedingt daran dein WiFi-Netzwerknamen und das Passwort in den Arduino Sktech einzufügen, damit sich deine senseBox mit dem Internet verbinden kann. Eine Anleitung wie es damit weitergeht, findest du",
+    attachmentLink: "hier",
+    attachmentSuffix: "in der Dokumentation.",
+    salutation: "Viel Spaß wünscht dein openSenseMap Team",
+  },
+};
 
 interface User {
   name: string;
@@ -79,53 +71,61 @@ export const NewDeviceEmail = ({
   user = { name: "Max Mustermann" },
   device = { _id: "1234567890", name: "senseBox Test Gerät" },
   language = "en",
-}: NewDeviceEmailProps) => (
-  <Html lang={language} dir="ltr">
-    <Head />
-    <Preview>{i18next.t("preview", { lng: language })}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>{i18next.t("heading", { lng: language })}</Heading>
-        <Text>Hallo {user.name},</Text>
-        <Text>
-          {i18next.t("description", { deviceName: device.name, lng: language })}
-        </Text>
-        <Text>
-          {i18next.t("deviceId", { lng: language })} <b>{device._id}</b>
-        </Text>
-        <Text>{i18next.t("opensensemapHint", { lng: language })}</Text>
-        <Link
-          href={`${baseUrl}/explore/${device._id}`}
-          target="_blank"
-        >{`${baseUrl}/explore/${device._id}`}</Link>
-        <Text>
-          {i18next.t("attachment", {
-            lng: language,
-          })}{" "}
-          <Link href="https://docs.sensebox.de/sensebox-home/home-schritt-1/">
-            {i18next.t("attachmentLink", { lng: language })}
-          </Link>{" "}
-          {i18next.t("attachmentSuffix", { lng: language })}
-        </Text>
-        <Text>
-          {i18next.t("support", { lng: language })} {}
+}: NewDeviceEmailProps) => {
+  const intl = createIntl({
+    locale: language,
+    messages: messages[language],
+  });
+
+  return (
+    <Html lang={language} dir="ltr">
+      <Head />
+      <Preview>{intl.formatMessage({ id: "preview" })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>{intl.formatMessage({ id: "heading" })}</Heading>
+          <Text>Hallo {user.name},</Text>
+          <Text>
+            {intl.formatMessage(
+              { id: "description" },
+              { deviceName: device.name }
+            )}
+          </Text>
+          <Text>
+            {intl.formatMessage({ id: "deviceId" })} <b>{device._id}</b>
+          </Text>
+          <Text>{intl.formatMessage({ id: "opensensemapHint" })}</Text>
           <Link
-            href={`mailto:support@sensebox.de?Subject=Hilfe%20bei%20der%20Einrichtung&body=Bitte%20bei%20jeder%20Anfrage%20die%20senseBox-ID%20(${device._id})%20mit%20angeben.%20Danke!`}
-          >
-            support@sensebox.de
-          </Link>
-        </Text>
-        <Text>{i18next.t("salutation", { lng: language })}</Text>
-      </Container>
-    </Body>
-  </Html>
-);
+            href={`${baseUrl}/explore/${device._id}`}
+            target="_blank"
+          >{`${baseUrl}/explore/${device._id}`}</Link>
+          <Text>
+            {intl.formatMessage({ id: "attachment" })}{" "}
+            <Link href="https://docs.sensebox.de/sensebox-home/home-schritt-1/">
+              {intl.formatMessage({ id: "attachmentLink" })}
+            </Link>{" "}
+            {intl.formatMessage({ id: "attachmentSuffix" })}
+          </Text>
+          <Text>
+            {intl.formatMessage({ id: "support" })} {}
+            <Link
+              href={`mailto:support@sensebox.de?Subject=Hilfe%20bei%20der%20Einrichtung&body=Bitte%20bei%20jeder%20Anfrage%20die%20senseBox-ID%20(${device._id})%20mit%20angeben.%20Danke!`}
+            >
+              support@sensebox.de
+            </Link>
+          </Text>
+          <Text>{intl.formatMessage({ id: "salutation" })}</Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 
 export default NewDeviceEmail;
 
 export const subject = {
-  de: "Dein neues Gerät auf der openSenseMap",
-  en: "Your device on openSenseMap",
+  de: "Deine senseBox auf der openSenseMap",
+  en: "Your new senseBox on openSenseMap",
 };
 
 const main = {

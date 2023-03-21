@@ -8,40 +8,32 @@ import { Preview } from "@react-email/preview";
 import { Text } from "@react-email/text";
 import * as React from "react";
 
-import i18next from "i18next";
+import { createIntl } from "@formatjs/intl";
 
-i18next.init({
-  debug: false,
-  resources: {
-    en: {
-      translation: {
-        preview: "Your openSenseMap account has been deleted",
-        heading: "openSenseMap account has been deleted",
-        hello: "Dear",
-        description:
-          "Your account and all registered senseBoxes are being deleted. Sad to see you go!",
-        hint: "This action is irreversible. If you want to participate again, register yourself a new account at",
-        hint_suffix: ".",
-        support:
-          "If you have any questions, feel free to write us an email to:",
-        salutation: "Best wishes, your openSenseMap Team",
-      },
-    },
-    de: {
-      translation: {
-        preview: "Dein openSenseMap Account wurde gelöscht",
-        heading: "openSenseMap Account wurde gelöschen",
-        hello: "Hallo",
-        description:
-          "Dein Account und alle deine senseBoxen wurden gerade gelöscht. Schade, dass du dich gelöscht hast!",
-        hint: "Dieser Vorgang ist endgültig. Wenn du gerne wieder teilnehmen möchtest, kannst du dich einfach auf",
-        hint_suffix: "neu registrieren.",
-        support: "Wenn Du Fragen hast schreib uns eine Mail an:",
-        salutation: "Tschüss, dein openSenseMap Team",
-      },
-    },
+const messages = {
+  en: {
+    preview: "Your openSenseMap account has been deleted",
+    heading: "openSenseMap account has been deleted",
+    hello: "Dear",
+    description:
+      "Your account and all registered senseBoxes are being deleted. Sad to see you go!",
+    hint: "This action is irreversible. If you want to participate again, register yourself a new account at",
+    hint_suffix: ".",
+    support: "If you have any questions, feel free to write us an email to:",
+    salutation: "Best wishes, your openSenseMap Team",
   },
-});
+  de: {
+    preview: "Dein openSenseMap Account wurde gelöscht",
+    heading: "openSenseMap Account wurde gelöschen",
+    hello: "Hallo",
+    description:
+      "Dein Account und alle deine senseBoxen wurden gerade gelöscht. Schade, dass du dich gelöscht hast!",
+    hint: "Dieser Vorgang ist endgültig. Wenn du gerne wieder teilnehmen möchtest, kannst du dich einfach auf",
+    hint_suffix: "neu registrieren.",
+    support: "Wenn Du Fragen hast schreib uns eine Mail an:",
+    salutation: "Tschüss, dein openSenseMap Team",
+  },
+};
 
 interface User {
   name: string;
@@ -59,33 +51,40 @@ const baseUrl = process.env.OSEM_URL
 export const DeleteUserEmail = ({
   user = { name: "Max Mustermann" },
   language = "en",
-}: DeleteUserEmailProps) => (
-  <Html lang={language} dir="ltr">
-    <Head />
-    <Preview>{i18next.t("preview", { lng: language })}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>{i18next.t("heading", { lng: language })}</Heading>
-        <Text>
-          {i18next.t("hello", { lng: language })} {user.name},
-        </Text>
-        <Text>{i18next.t("description", { lng: language })}</Text>
-        <Text>
-          {i18next.t("hint", { lng: language })}{" "}
-          <Link href={baseUrl} target="_blank">
-            opensensemap.org
-          </Link>{" "}
-          {i18next.t("hint_suffix", { lng: language })}
-        </Text>
-        <Text>
-          {i18next.t("support", { lng: language })} {}
-          <Link href="mailto:support@sensebox.de">support@sensebox.de</Link>
-        </Text>
-        <Text>{i18next.t("salutation", { lng: language })}</Text>
-      </Container>
-    </Body>
-  </Html>
-);
+}: DeleteUserEmailProps) => {
+  const intl = createIntl({
+    locale: language,
+    messages: messages[language],
+  });
+
+  return (
+    <Html lang={language} dir="ltr">
+      <Head />
+      <Preview>{intl.formatMessage({ id: "preview" })}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>{intl.formatMessage({ id: "heading" })}</Heading>
+          <Text>
+            {intl.formatMessage({ id: "hello" })} {user.name},
+          </Text>
+          <Text>{intl.formatMessage({ id: "description" })}</Text>
+          <Text>
+            {intl.formatMessage({ id: "hint" })}{" "}
+            <Link href={baseUrl} target="_blank">
+              opensensemap.org
+            </Link>{" "}
+            {intl.formatMessage({ id: "hint_suffix" })}
+          </Text>
+          <Text>
+            {intl.formatMessage({ id: "support" })} {}
+            <Link href="mailto:support@sensebox.de">support@sensebox.de</Link>
+          </Text>
+          <Text>{intl.formatMessage({ id: "salutation" })}</Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 
 export default DeleteUserEmail;
 
