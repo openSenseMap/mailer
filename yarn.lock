@@ -743,10 +743,10 @@
     react "18.2.0"
     react-dom "18.2.0"
 
-"@react-email/text@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@react-email/text/-/text-0.0.4.tgz#097b725fbd834de90f0f993fd4ddbd716a53fe29"
-  integrity sha512-U99QEmgmlfs3TijP/761+pogEX4AIF/6qyFRlfJQuSLOmFbRzuSUG9dLeNIO4W4yMQTcqVjKggHc4sgPxPy1OQ==
+"@react-email/text@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@react-email/text/-/text-0.0.5.tgz#99a2e04a709f59f6b742588aad6fc93ed349cfce"
+  integrity sha512-LXhHiaC6oRRsNAfOzJDos4wQA22eIdVJvR6G7uu4QzUvYNOAatDMf89jRQcKGrxX7InkS640v8sHd9jl5ztM5w==
   dependencies:
     react "18.2.0"
 
