@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@formatjs/intl": "^2.6.9",
-    "@react-email/body": "0.0.1",
+    "@react-email/body": "0.0.2",
     "@react-email/container": "0.0.7",
     "@react-email/head": "0.0.4",
     "@react-email/heading": "0.0.7",
