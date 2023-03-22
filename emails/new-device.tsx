@@ -16,8 +16,7 @@ const messages = {
     heading: "Your device on openSenseMap",
     hello: "Hello",
     description:
-      "Thank you for registering your hackAIR home v2 particulate matter sensor {deviceName} on openSenseMap!",
-    hint: "🎉 Now, you have to configure your device in order to submit measurements to the openSenseMap. You'll find instructions to do so on",
+      "your senseBox { deviceName } is now registered at openSenseMap! 🎉 Thank you very much for contributing!",
     thanks: "Thank you very much for contributing!",
     deviceId: "Your senseBox ID is:",
     opensensemapHint: "You can view your device at this location:",
@@ -33,8 +32,7 @@ const messages = {
     heading: "Dein neues Gerät auf der openSenseMap",
     hello: "Hallo",
     description:
-      "vielen Dank für die Registrierung deines hackAIR home v2 Feinstaubsensors {deviceName} auf der openSenseMap!",
-    hint: "🎉 Damit deine Daten auch die openSenseMap erreichen, musst du noch deinen Feinstaubsensor konfigurieren. Eine Anleitung findest du unter",
+      "deine senseBox mit dem Namen { deviceName } ist nun auf der openSenseMap angemeldet! 🎉 Vielen lieben Dank, dass du dich am Projekt beteiligst.",
     thanks: "Vielen lieben Dank, dass du dich am Projekt beteiligst.",
     deviceId: "Deine senseBox-ID lautet:",
     opensensemapHint:
