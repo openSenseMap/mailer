@@ -27,7 +27,7 @@
     "@react-email/link": "0.0.4",
     "@react-email/preview": "0.0.5",
     "@react-email/render": "^0.0.6",
-    "@react-email/text": "0.0.4",
+    "@react-email/text": "0.0.5",
     "bullmq": "^3.10.1",
     "dotenv": "^16.0.3",
     "nodemailer": "^6.9.1",
