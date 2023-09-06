@@ -118,7 +118,7 @@ export const NewSketchEmail = ({
           <Text>{intl.formatMessage({ id: "sensors" })}</Text>
           <ul>
             {device.sensors.map((sensor) => (
-              <li>
+              <li key={sensor._id}>
                 {sensor.title} ({sensor.sensorType}): {sensor._id}
               </li>
             ))}
