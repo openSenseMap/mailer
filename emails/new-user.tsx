@@ -89,7 +89,9 @@ export const NewUserEmail = ({
           <Text>
             {intl.formatMessage({ id: "confirm" })}{" "}
             <Link
-              href={`${baseUrl}/account/confirm-email?email=${email}&token=${token}`}
+              href={`${baseUrl}/account/confirm-email?email=${encodeURIComponent(
+                email
+              )}&token=${token}`}
             >
               Link
             </Link>
@@ -97,11 +99,15 @@ export const NewUserEmail = ({
           <Text>{intl.formatMessage({ id: "hint" })}</Text>
           <code
             style={code}
-          >{`${baseUrl}/account/confirm-email?token=${token}&email=${email}`}</code>
+          >{`${baseUrl}/account/confirm-email?token=${token}&email=${encodeURIComponent(
+            email
+          )}`}</code>
           <Text>
             {intl.formatMessage({ id: "support" })} {}
             <Link
-              href={`mailto:support@sensebox.de?Subject=Nutzer%20Registrierung%20${email}`}
+              href={`mailto:support@sensebox.de?Subject=Nutzer%20Registrierung%20${encodeURIComponent(
+                email
+              )}`}
             >
               support@sensebox.de
             </Link>

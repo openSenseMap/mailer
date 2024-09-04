@@ -1,14 +1,16 @@
-import { Html } from "@react-email/html";
-import { Body } from "@react-email/body";
-import { Container } from "@react-email/container";
-import { Head } from "@react-email/head";
-import { Heading } from "@react-email/heading";
-import { Link } from "@react-email/link";
-import { Preview } from "@react-email/preview";
-import { Text } from "@react-email/text";
 import * as React from "react";
 
 import { createIntl } from "@formatjs/intl";
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Link,
+  Preview,
+  Text,
+} from "@react-email/components";
 
 const messages = {
   en: {
@@ -88,10 +90,10 @@ export const NewDeviceLuftdatenEmail = ({
           <Text>
             {intl.formatMessage({ id: "hint" })}{" "}
             <Link
-              href="https://docs.sensebox.de/opensensemap/opensensemap-luftdaten/"
+              href="https://tutorials.opensensemap.org/devices/devices-luftdaten/"
               target="_blank"
             >
-              https://docs.sensebox.de/opensensemap/opensensemap-luftdaten/
+              https://tutorials.opensensemap.org/devices/devices-luftdaten/
             </Link>
             .
           </Text>
