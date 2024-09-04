@@ -1,4 +1,3 @@
-import { render } from "@react-email/render";
 import type { Job } from "bullmq";
 
 // Import logger
@@ -36,6 +35,7 @@ import ResendEmailConfirmationEmail, {
   subject as ResendEmailConfirmationEmailSubject,
 } from "../../emails/resend-email-confirmation";
 import Mail from "nodemailer/lib/mailer";
+import { render } from "@react-email/components";
 
 interface Recipient {
   address: string;
@@ -204,7 +204,7 @@ export default async function (job: Job) {
     from: '"openSenseMap 🌍" <no-reply@opensensemap.org>', // sender address
     to: `"${apiPayload.recipient.name}" <${apiPayload.recipient.address}>`, // list of receivers
     subject: subject ? subject[lang] : "openSenseMap", // Subject line
-    html: emailHtml, // html body
+    // html: emailHtml, // html body
     attachments: attachments,
   });
 
