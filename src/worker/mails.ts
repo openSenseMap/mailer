@@ -94,7 +94,7 @@ export default async function (job: Job) {
   switch (apiPayload.template) {
     case "confirmEmail":
       subject = ConfirmEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         ConfirmEmail({
           user: apiPayload.payload.user,
           token: apiPayload.payload.token,
@@ -105,7 +105,7 @@ export default async function (job: Job) {
       break;
     case "deleteUser":
       subject = DeleteUserEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         DeleteUserEmail({
           user: apiPayload.payload.user,
           language: lang,
@@ -114,7 +114,7 @@ export default async function (job: Job) {
       break;
     case "newBox":
       subject = NewDeviceEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         NewDeviceEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
@@ -129,7 +129,7 @@ export default async function (job: Job) {
       break;
     case "newBoxHackAir":
       subject = NewDeviceHackairEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         NewDeviceHackairEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
@@ -139,7 +139,7 @@ export default async function (job: Job) {
       break;
     case "newBoxLuftdaten":
       subject = NewDeviceLuftdatenEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         NewDeviceLuftdatenEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
@@ -149,7 +149,7 @@ export default async function (job: Job) {
       break;
     case "newSketch":
       subject = NewSketchEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         NewSketchEmail({
           user: apiPayload.payload.user,
           device: apiPayload.payload.box,
@@ -164,7 +164,7 @@ export default async function (job: Job) {
       break;
     case "newUser":
       subject = NewUserEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         NewUserEmail({
           user: apiPayload.payload.user,
           email: apiPayload.payload.email,
@@ -175,7 +175,7 @@ export default async function (job: Job) {
       break;
     case "passwordReset":
       subject = PasswordResetEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         PasswordResetEmail({
           user: apiPayload.payload.user,
           email: apiPayload.payload.email,
@@ -186,7 +186,7 @@ export default async function (job: Job) {
       break;
     case "resendEmailConfirmation":
       subject = ResendEmailConfirmationEmailSubject;
-      emailHtml = render(
+      emailHtml = await render(
         ResendEmailConfirmationEmail({
           user: apiPayload.payload.user,
           token: apiPayload.payload.token,
@@ -204,7 +204,7 @@ export default async function (job: Job) {
     from: '"openSenseMap 🌍" <no-reply@opensensemap.org>', // sender address
     to: `"${apiPayload.recipient.name}" <${apiPayload.recipient.address}>`, // list of receivers
     subject: subject ? subject[lang] : "openSenseMap", // Subject line
-    // html: emailHtml, // html body
+    html: emailHtml, // html body
     attachments: attachments,
   });
 
