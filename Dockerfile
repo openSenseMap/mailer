@@ -12,8 +12,8 @@ FROM base as deps
 
 WORKDIR /myapp
 
-ADD package.json yarn.lock ./
-RUN yarn install
+ADD package.json package-lock.json ./
+RUN npm install
 
 # Build the app
 FROM base as build
@@ -22,7 +22,7 @@ WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 ADD . .
-RUN yarn build
+RUN npm run build
 
 # Setup production node_modules
 FROM base as production-deps
@@ -30,8 +30,8 @@ FROM base as production-deps
 WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
-ADD package.json yarn.lock ./
-RUN yarn install --production
+ADD package.json package-lock.json ./
+RUN npm install --production
 
 # Finally, build the production image with minimal footprint
 FROM base
