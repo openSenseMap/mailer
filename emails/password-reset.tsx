@@ -102,7 +102,9 @@ export const PasswordResetEmail = ({
           <Text>
             {intl.formatMessage({ id: "support" })} {}
             <Link
-              href={`mailto:support@sensebox.de?Subject=Password%20Zur%C3%BCcksetzen%20f%C3%BCr%20${user.email}`}
+              href={`mailto:support@sensebox.de?Subject=Password%20Zur%C3%BCcksetzen%20f%C3%BCr%20${encodeURIComponent(
+                user.email
+              )}`}
             >
               support@sensebox.de
             </Link>
